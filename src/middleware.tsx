@@ -1,30 +1,36 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const privatePaths = ["/me"];
 const authPaths = ["/login", "/register"];
-
-const productEditRegex = /^\/products\/\d+\/edit$/;
+const privatePathsRegex = /^\/(?!login|register).*/;
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  //   const token = window.localStorage.getItem("FastFoodRes");
-  const sessionToken = request.cookies.get("sessionToken")?.value;
-  // Chưa đăng nhập thì không cho vào private paths
-  if (privatePaths.some((path) => pathname.startsWith(path)) && !sessionToken) {
+  const sessionToken = request.cookies.get("access_token")?.value;
+
+  // Nếu không có sessionToken
+  if (!sessionToken) {
+    // Cho phép truy cập login và register nếu chưa đăng nhập
+    if (authPaths.some((path) => pathname.startsWith(path))) {
+      return NextResponse.next();
+    }
+
+    // Chuyển hướng đến login nếu truy cập trang yêu cầu sessionToken
     return NextResponse.redirect(new URL("/login", request.url));
   }
-  // Đăng nhập rồi thì không cho vào login/register nữa
-  if (authPaths.some((path) => pathname.startsWith(path)) && sessionToken) {
-    return NextResponse.redirect(new URL("/me", request.url));
+
+  // Nếu có sessionToken
+  if (sessionToken) {
+    // Không cho vào login/register nữa khi đã đăng nhập
+    if (authPaths.some((path) => pathname.startsWith(path))) {
+      return NextResponse.redirect(new URL("/", request.url)); // Chuyển hướng về trang chủ hoặc trang khác
+    }
   }
-  if (pathname.match(productEditRegex) && !sessionToken) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+
+  // Cho phép truy cập vào tất cả các trang khác
   return NextResponse.next();
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/me", "/login", "/register", "/products/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"], // Match tất cả các trang trừ các file tĩnh
 };
