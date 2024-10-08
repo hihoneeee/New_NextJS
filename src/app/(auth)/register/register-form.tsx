@@ -19,6 +19,7 @@ import { apiRegister } from "@/app/api/auth";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 const { Eye, EyeOff } = icons;
 const formSchema = z
   .object({
@@ -64,9 +65,6 @@ const RegisterForm = () => {
       roleCode: "DA5",
       ...payload,
     });
-    console.log("====================================");
-    console.log(response);
-    console.log("====================================");
     if (response && response.success) {
       Swal.fire({
         icon: "success",
@@ -83,14 +81,14 @@ const RegisterForm = () => {
   }
 
   return (
-    <div className="w-[35%] mx-auto border border-gray-500 p-6 rounded-md space-y-3">
+    <div className="laptop:w-[35%] w-full mx-auto border border-gray-500 p-6 rounded-md space-y-3 my-auto">
       {" "}
       <div className="flex flex-col items-center justify-center gap-2">
-        <h1 className="text-center desktop:text-3xl laptop:text-2xl text-base font-bold">
+        <h1 className="text-center desktop:text-3xl laptop:text-2xl text-xl font-bold">
           Đăng Ký
         </h1>
         <span className="text-gray-400 desktop:text-sm laptop:text-xs text-xxs font-semibold">
-          Nơi đăng ký tài khoản cho admin
+          Nơi đăng ký tài khoản cho bạn
         </span>
       </div>
       <Form {...form}>
@@ -100,7 +98,9 @@ const RegisterForm = () => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Họ và tên</FormLabel>
+                <FormLabel className="laptop:text-sm text-xs">
+                  Họ và tên
+                </FormLabel>
                 <FormControl>
                   <Input placeholder="Nhập thông tin...." {...field} />
                 </FormControl>
@@ -113,7 +113,9 @@ const RegisterForm = () => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Số điện thoại</FormLabel>
+                <FormLabel className="laptop:text-sm text-xs">
+                  Số điện thoại
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -132,7 +134,9 @@ const RegisterForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mật khẩu</FormLabel>
+                  <FormLabel className="laptop:text-sm text-xs">
+                    Mật khẩu
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type={showPassword ? "text" : "password"}
@@ -156,7 +160,9 @@ const RegisterForm = () => {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Xác nhận mật khẩu</FormLabel>
+                <FormLabel className="laptop:text-sm text-xs">
+                  Xác nhận mật khẩu
+                </FormLabel>
                 <FormControl>
                   <Input
                     type={showPassword ? "text" : "password"}
@@ -172,6 +178,15 @@ const RegisterForm = () => {
             Xác nhận
           </Button>
         </form>
+        <div className="text-center">
+          <Link
+            className="laptop:text-xs text-xxs cursor-pointer hover:underline"
+            href="/login"
+            replace
+          >
+            Đăng nhập ngay thôi!
+          </Link>
+        </div>
       </Form>
     </div>
   );

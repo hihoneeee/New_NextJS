@@ -1,11 +1,20 @@
 import LoginForm from "@/app/(auth)/login/login-form";
 import React from "react";
-
+import imgLogin from "@/assets/threads-logo.gif";
+import Image from "next/image";
 const LoginPage = () => {
-  
   return (
-    <div className="px-[8rem] desktop:px-[18rem] py-12 space-y-8">
+    <div className="flex items-center justify-center min-h-screen">
       <LoginForm />
+      <div className=" rounded-e-md h-[24.4rem]">
+        <Image
+          src={imgLogin}
+          alt="Login Image"
+          width={500}
+          height={800}
+          className="h-full rounded-e-md"
+        />
+      </div>
     </div>
   );
 };

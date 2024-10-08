@@ -10,7 +10,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import icons from "@/utils/icons";
@@ -19,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { apiLogin } from "@/app/api/auth";
 import { useUserStore } from "@/store";
+import Link from "next/link";
 const { Eye, EyeOff } = icons;
 const formSchema = z.object({
   phone: z
@@ -47,37 +47,35 @@ const LoginForm = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const response = await apiLogin(values);
-    console.log("====================================");
-    console.log(response?.success);
-    console.log("====================================");
     if (response && response.success) {
       toast.success("Đăng nhập thành công!");
       setToken(response.access_token);
-      router.push("/");
+      router.push("/home");
     } else {
-      toast.error(response?.msg);
+      toast.error("Sai tài khoản hoặc mật khẩu!");
     }
   }
 
   return (
-    <div className="w-[35%] mx-auto border border-gray-500 p-6 rounded-md space-y-3">
-      {" "}
+    <div className="laptop:w-[35%] w-full p-6 rounded-s-md space-y-6 h-[30%]">
       <div className="flex flex-col items-center justify-center gap-2">
-        <h1 className="text-center desktop:text-3xl laptop:text-2xl text-base font-bold">
+        <h1 className="text-center desktop:text-3xl laptop:text-2xl text-xl font-bold">
           Đăng Nhập
         </h1>
         <span className="text-gray-400 desktop:text-sm laptop:text-xs text-xxs font-semibold">
-          Nơi đăng nhập tài khoản cho admin
+          Nơi đăng nhập tài khoản của bạn
         </span>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
             control={form.control}
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Số điện thoại</FormLabel>
+                <FormLabel className="laptop:text-sm text-xs">
+                  Số điện thoại
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -96,7 +94,9 @@ const LoginForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mật khẩu</FormLabel>
+                  <FormLabel className="laptop:text-sm text-xs">
+                    Mật khẩu
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type={showPassword ? "text" : "password"}
@@ -120,6 +120,25 @@ const LoginForm = () => {
           </Button>
         </form>
       </Form>
+      <div className="flex items-center justify-between">
+        <p className="laptop:text-xs text-xxs text-gray-400">
+          Bạn quên mật khẩu? Khôi phục{" "}
+          <Link
+            className="text-white cursor-pointer hover:underline"
+            href="/forgot"
+            replace
+          >
+            tại đây!
+          </Link>
+        </p>
+        <Link
+          className="laptop:text-xs text-xxs cursor-pointer hover:underline"
+          href="/register"
+          replace
+        >
+          Đăng ký
+        </Link>
+      </div>
     </div>
   );
 };
