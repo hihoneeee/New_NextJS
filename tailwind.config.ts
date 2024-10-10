@@ -54,6 +54,10 @@ const config: Config = {
         divBackground: "#1266dd",
         btnBackground: "#F73859",
         inputColor: "#e8f0fe",
+        divColor: "#181818",
+        textColorLight: "#b4b3b3",
+        textColorDark: "#4d4d4d",
+        borderDarkColor: "rgba(243, 245, 247, 0.15)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -61,12 +65,13 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       backgroundColor: {
+        "overlay-4": "rgba(0,0,0,0.04)",
         "overlay-10": "rgba(0,0,0,0.1)",
         "overlay-20": "rgba(0,0,0,0.2)",
         "overlay-30": "rgba(0,0,0,0.3)",
         "overlay-50": "rgba(0,0,0,0.5)",
         "overlay-70": "rgba(0,0,0,0.7)",
-        "overlay-main-50": "rgba(0,0,063053,0.7)",
+        "overlay-main-40": "rgba(255, 255, 255, 0.04)",
       },
       width: {
         main: "1319px",
