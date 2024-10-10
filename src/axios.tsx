@@ -1,11 +1,5 @@
 import axios from "axios";
-
-// Define the structure of the token
-interface Token {
-  state?: {
-    token?: string;
-  };
-}
+import Cookies from "js-cookie";
 
 // Create Axios instance
 const instance = axios.create({
@@ -15,25 +9,12 @@ const instance = axios.create({
 // Add request interceptor
 instance.interceptors.request.use(
   function (config) {
-    const token = window.localStorage.getItem("FastFoodRes");
+    // Lấy token từ cookie
+    const token = Cookies.get("access_token");
 
-    // Safely parse token with proper typing
-    let parsedToken: Token | null = null;
-    try {
-      parsedToken = token ? JSON.parse(token) : null;
-    } catch (e) {
-      console.error("Error parsing token from localStorage", e);
-    }
-
-    // Check if the parsed token exists and has the correct structure
-    if (parsedToken?.state?.token) {
-      // Use the 'set' method to add the Authorization header
-      if (config.headers) {
-        config.headers.set(
-          "Authorization",
-          `Bearer ${parsedToken.state.token}`
-        );
-      }
+    // Kiểm tra và thêm token vào headers nếu tồn tại
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;

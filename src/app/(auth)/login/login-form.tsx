@@ -17,7 +17,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { apiLogin } from "@/app/api/auth";
-import { useUserStore } from "@/store";
 import Link from "next/link";
 const { Eye, EyeOff } = icons;
 const formSchema = z.object({
@@ -35,7 +34,6 @@ const formSchema = z.object({
 const LoginForm = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const router = useRouter();
-  const { setToken } = useUserStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,7 +47,6 @@ const LoginForm = () => {
     const response = await apiLogin(values);
     if (response && response.success) {
       toast.success("Đăng nhập thành công!");
-      setToken(response.access_token);
       router.push("/home");
     } else {
       toast.error("Sai tài khoản hoặc mật khẩu!");
@@ -57,7 +54,7 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="laptop:w-[35%] w-full p-6 rounded-s-md space-y-6 h-[30%]">
+    <div className="border border-gray-400 laptop:w-[35%] w-full p-6 rounded-md space-y-6 h-[30%]">
       <div className="flex flex-col items-center justify-center gap-2">
         <h1 className="text-center desktop:text-3xl laptop:text-2xl text-xl font-bold">
           Đăng Nhập

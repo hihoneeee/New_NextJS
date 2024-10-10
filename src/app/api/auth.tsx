@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Cookies from "js-cookie";
 import axios from "../../axios";
-import { decodeToken } from "@/utils/common";
+import { jwtDecode } from "jwt-decode";
 
 interface AuthResponse {
   success: boolean;
@@ -42,23 +42,18 @@ export const apiLogin = async (
     const refreshToken = response.refresh_token;
     const accessToken = response.access_token;
 
-    const decodedRefreshToken = decodeToken(refreshToken);
-    const decodedAccessToken = decodeToken(accessToken);
-
-    const expirationTimeRefreshToken = new Date(
-      decodedRefreshToken?.exp * 1000
-    );
-    const expirationTimeAccessToken = new Date(decodedAccessToken?.exp * 1000);
+    const decodedRefreshToken = jwtDecode<{ exp: number }>(refreshToken);
+    const decodedAccessToken = jwtDecode<{ exp: number }>(accessToken);
 
     Cookies.set("refresh_token", refreshToken, {
-      expires: expirationTimeRefreshToken,
+      expires: new Date(decodedRefreshToken.exp * 1000),
       path: "/",
       secure: true,
       sameSite: "Strict",
     });
 
     Cookies.set("access_token", accessToken, {
-      expires: expirationTimeAccessToken,
+      expires: new Date(decodedAccessToken.exp * 1000),
       path: "/",
       secure: true,
       sameSite: "Strict",

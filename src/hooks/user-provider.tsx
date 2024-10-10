@@ -1,5 +1,5 @@
 "use client";
-
+import Cookies from "js-cookie";
 import React, { createContext, useContext, useEffect, ReactNode } from "react";
 import { useUserStore } from "@/store";
 
@@ -12,8 +12,8 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const { token, current, getCurrent } = useUserStore();
-
+  const { current, getCurrent } = useUserStore();
+  const token = Cookies.get("access_token") || null;
   useEffect(() => {
     getCurrent();
   }, [token]);
