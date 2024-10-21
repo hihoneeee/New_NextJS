@@ -15,7 +15,7 @@ const NavHomeBottom = () => {
   const { getCurrent, clearCurrent } = useUserStore();
   const router = useRouter();
   const handleLogout = () => {
-    getCurrent(null);
+    getCurrent();
     clearCurrent();
     Cookies.remove("refresh_token", { path: "/" });
     router.push("/login");
@@ -36,12 +36,12 @@ const NavHomeBottom = () => {
           )
         )}
       >
-        <SettingsIcon size={30} />
+        <SettingsIcon size={28} />
       </div>
       <ModeToggle />
 
       {OpenSetting === "settingOn" && (
-        <div className="p-3 rounded-2xl dark:bg-divColor border border-gray-borderDarkColor shadow-xl flex flex-col absolute bottom-0 left-[7rem] w-[15%]">
+        <div className="p-3 rounded-2xl dark:bg-divColor border border-gray-borderDarkColor shadow-xl flex flex-col absolute bottom-0 left-[5rem] w-[20rem]">
           <Link
             className="px-2 py-4 rounded-lg dark:text-white hover:dark:bg-overlay-main-40 font-semibold text-black hover:bg-overlay-4"
             href="/insights"

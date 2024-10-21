@@ -27,11 +27,11 @@ const NavHomeCenter = () => {
               )}
               href={el.path}
             >
-              <el.icon size={30} />
+              <el.icon size={28} />
             </Link>
             {el.id === 2 && (
               <div className="px-4 py-2 rounded-lg text-textColorLight bg-overlay-10 hover:text-black hover:dark:text-white dark:text-[#4d4d4d] dark:bg-divColor">
-                <Plus size={30} />
+                <Plus size={28} />
               </div>
             )}
           </>

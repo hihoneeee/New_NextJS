@@ -4,12 +4,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { apiGetCurrent } from "@/app/api/user";
 import { apiRefreshToken } from "@/app/api/auth";
 import { jwtDecode } from "jwt-decode";
-
-type UserType = {
-  current: object | null;
-  getCurrent: () => Promise<void>;
-  clearCurrent: () => void;
-};
+import { UserType, User } from "@/types/userTypes";
 
 export const useUserStore = create<UserType>()(
   persist(
@@ -21,50 +16,42 @@ export const useUserStore = create<UserType>()(
         const isTokenExpired = (token: string) => {
           const decoded: { exp: number } = jwtDecode(token);
           const currentTime = Date.now() / 1000;
-          return decoded.exp < currentTime + 10; // Token sẽ hết hạn trong 10 giây
+          return decoded.exp < currentTime + 10;
         };
 
-        // Nếu token còn và sắp hết hạn trong 10 giây
-        if (token) {
-          if (!isTokenExpired(token)) {
-            const response = await apiGetCurrent();
-            if (response && response.success) {
-              return set(() => ({ current: response.data }));
-            }
-          } else {
-            // Token sắp hết hạn, làm mới token
-            const refreshToken = Cookies.get("refresh_token");
-            if (refreshToken) {
-              const refreshResponse = await apiRefreshToken({
-                refresh_token: refreshToken,
-              });
+        if (token && !isTokenExpired(token)) {
+          const response = await apiGetCurrent();
+          if (response && response.success) {
+            const userData: User = response.data;
+            return set(() => ({ current: userData }));
+          }
+        }
 
-              if (refreshResponse && refreshResponse.success) {
-                const newAccessToken = refreshResponse.access_token;
-                const decodedAccessToken = jwtDecode<{ exp: number }>(
-                  newAccessToken
-                );
+        const refreshToken = Cookies.get("refresh_token");
+        if (refreshToken) {
+          const refreshResponse = await apiRefreshToken({
+            refresh_token: refreshToken,
+          });
 
-                // Cập nhật access_token trong cookie
-                Cookies.set("access_token", newAccessToken, {
-                  expires: new Date(decodedAccessToken.exp * 1000),
-                  path: "/",
-                  secure: true,
-                  sameSite: "Strict",
-                });
+          if (refreshResponse && refreshResponse.success) {
+            const newAccessToken = refreshResponse.access_token;
+            const decodedAccessToken = jwtDecode<{ exp: number }>(
+              newAccessToken
+            );
 
-                // Thử lại apiGetCurrent với access_token mới
-                const retryResponse = await apiGetCurrent();
-                if (retryResponse && retryResponse.success) {
-                  return set(() => ({ current: retryResponse.data }));
-                }
-              }
-            } else {
-              window.location.reload();
+            Cookies.set("access_token", newAccessToken, {
+              expires: new Date(decodedAccessToken.exp * 1000),
+              path: "/",
+              secure: true,
+              sameSite: "Strict",
+            });
+
+            const retryResponse = await apiGetCurrent();
+            if (retryResponse && retryResponse.success) {
+              const userData: User = retryResponse.data;
+              return set(() => ({ current: userData }));
             }
           }
-        } else {
-          set(() => ({ current: null }));
         }
       },
       clearCurrent: () => {
