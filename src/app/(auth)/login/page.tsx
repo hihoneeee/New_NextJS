@@ -1,6 +1,6 @@
 import LoginForm from "@/app/(auth)/login/login-form";
 import React from "react";
-import imgLogin from "@/assets/threads-logo.gif";
+import imgLogin from "@/assets/logo.jpg";
 import Image from "next/image";
 const LoginPage = () => {
   return (
@@ -11,8 +11,8 @@ const LoginPage = () => {
           src={imgLogin}
           alt="Login Image"
           width={500}
-          height={800}
-          className="h-full rounded-e-md"
+          height={900}
+          className="object-cover desktop:h-[24.8rem] laptop:h-[24rem] rounded-e-md"
         />
       </div>
     </div>

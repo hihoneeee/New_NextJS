@@ -84,7 +84,7 @@ const RegisterForm = () => {
     <div className="laptop:w-[35%] w-full mx-auto border border-gray-500 p-6 rounded-md space-y-3 my-auto">
       {" "}
       <div className="flex flex-col items-center justify-center gap-2">
-        <h1 className="text-center desktop:text-3xl laptop:text-2xl text-xl font-bold">
+        <h1 className="text-center desktop:text-3xl laptop:text-2xl text-xl font-bold text-black dark:text-white">
           Đăng Ký
         </h1>
         <span className="text-gray-400 desktop:text-sm laptop:text-xs text-xxs font-semibold">
@@ -92,17 +92,21 @@ const RegisterForm = () => {
         </span>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="laptop:text-sm text-xs">
+                <FormLabel className="laptop:text-sm text-xs text-black dark:text-white">
                   Họ và tên
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="Nhập thông tin...." {...field} />
+                  <Input
+                    placeholder="Nhập thông tin...."
+                    {...field}
+                    className="text-black dark:text-white"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -113,7 +117,7 @@ const RegisterForm = () => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="laptop:text-sm text-xs">
+                <FormLabel className="laptop:text-sm text-xs text-black dark:text-white">
                   Số điện thoại
                 </FormLabel>
                 <FormControl>
@@ -134,7 +138,7 @@ const RegisterForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="laptop:text-sm text-xs">
+                  <FormLabel className="laptop:text-sm text-xs text-black dark:text-white">
                     Mật khẩu
                   </FormLabel>
                   <FormControl>
@@ -142,6 +146,7 @@ const RegisterForm = () => {
                       type={showPassword ? "text" : "password"}
                       placeholder="Nhập thông tin...."
                       {...field}
+                      className="text-black dark:text-white"
                     />
                   </FormControl>
                   <FormMessage />
@@ -150,7 +155,7 @@ const RegisterForm = () => {
             />
             <div
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-[2.5rem] cursor-pointer"
+              className="absolute right-3 top-[2.5rem] cursor-pointer text-black dark:text-white"
             >
               {showPassword ? <Eye /> : <EyeOff />}
             </div>
@@ -160,7 +165,7 @@ const RegisterForm = () => {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="laptop:text-sm text-xs">
+                <FormLabel className="laptop:text-sm text-xs text-black dark:text-white">
                   Xác nhận mật khẩu
                 </FormLabel>
                 <FormControl>
@@ -168,6 +173,7 @@ const RegisterForm = () => {
                     type={showPassword ? "text" : "password"}
                     placeholder="Nhập lại mật khẩu...."
                     {...field}
+                    className="text-black dark:text-white"
                   />
                 </FormControl>
                 <FormMessage />
@@ -180,7 +186,7 @@ const RegisterForm = () => {
         </form>
         <div className="text-center">
           <Link
-            className="laptop:text-xs text-xxs cursor-pointer hover:underline"
+            className="laptop:text-xs text-xxs cursor-pointer hover:underline text-black dark:text-white"
             href="/login"
             replace
           >

@@ -54,9 +54,9 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="border border-gray-400 laptop:w-[35%] w-full p-6 rounded-md space-y-6 h-[30%]">
+    <div className="border dark:border-borderDarkColor laptop:w-[35%] w-full p-6 rounded-md space-y-6 h-[30%]">
       <div className="flex flex-col items-center justify-center gap-2">
-        <h1 className="text-center desktop:text-3xl laptop:text-2xl text-xl font-bold">
+        <h1 className="text-center desktop:text-3xl laptop:text-2xl text-xl font-bold text-black dark:text-white">
           Đăng Nhập
         </h1>
         <span className="text-gray-400 desktop:text-sm laptop:text-xs text-xxs font-semibold">
@@ -70,7 +70,7 @@ const LoginForm = () => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="laptop:text-sm text-xs">
+                <FormLabel className="laptop:text-sm text-xs text-black dark:text-white">
                   Số điện thoại
                 </FormLabel>
                 <FormControl>
@@ -91,12 +91,13 @@ const LoginForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="laptop:text-sm text-xs">
+                  <FormLabel className="laptop:text-sm text-xs text-black dark:text-white">
                     Mật khẩu
                   </FormLabel>
                   <FormControl>
                     <Input
                       type={showPassword ? "text" : "password"}
+                      className="text-black dark:text-white"
                       placeholder="Nhập thông tin...."
                       {...field}
                     />
@@ -107,7 +108,7 @@ const LoginForm = () => {
             />
             <div
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-[2.5rem] cursor-pointer"
+              className="absolute right-3 top-[2.5rem] cursor-pointer text-black dark:text-white"
             >
               {showPassword ? <Eye size={16} /> : <EyeOff size={16} />}
             </div>
@@ -121,7 +122,7 @@ const LoginForm = () => {
         <p className="laptop:text-xs text-xxs text-gray-400">
           Bạn quên mật khẩu? Khôi phục{" "}
           <Link
-            className="text-white cursor-pointer hover:underline"
+            className="text-black dark:text-white cursor-pointer hover:underline"
             href="/forgot"
             replace
           >
@@ -129,7 +130,7 @@ const LoginForm = () => {
           </Link>
         </p>
         <Link
-          className="laptop:text-xs text-xxs cursor-pointer hover:underline"
+          className="laptop:text-xs text-xxs cursor-pointer hover:underline text-black dark:text-white"
           href="/register"
           replace
         >

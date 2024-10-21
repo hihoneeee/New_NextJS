@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ToastNotification } from "@/components";
 import { ThemeProvider } from "@/components/dark-mode/theme-provider";
+
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["100", "400", "700", "900"],
